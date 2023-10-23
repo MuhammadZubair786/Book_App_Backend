@@ -14,7 +14,7 @@ app.use(bd.urlencoded({
 }))
 app.use(bd.json())
 
-mongoose.connect('mongodb+srv://Zubair:abc786@cluster0.vr1il.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://Zubair:12312312@cluster0.me3ff.mongodb.net/',
     {
         useCreateIndex: true,
         useNewUrlParser: true,
