@@ -1,44 +1,38 @@
-// console.log("HELLO WORLD")
-const exp = require('express')
-const cors = require('cors')
-const bd = require("body-parser")
-const mongoose = require("mongoose")
-const app = exp()
-const port = 5000;
-const mainRouter = require("./routes/mainRouter")
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+require('dotenv').config();
+const mainRoute = require('./Route/mainRouter.js');
 
-app.use(cors())
-
-app.use(bd.urlencoded({
-    extended: false
-}))
-app.use(bd.json())
-
-mongoose.connect('mongodb+srv://Zubair:12312312@cluster0.me3ff.mongodb.net/',
-    {
-        useCreateIndex: true,
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
+const dbURI = process.env.DB_URI;
 
 
-mongoose.connection.on("connected", () => {
-    console.log("Database Connected");
+const app = express();
+const PORT = 3000;
 
-})
+// Connect to MongoDB
+mongoose.connect(dbURI);
 
-mongoose.connection.on("error", () => {
-    console.log("Database Not Connected");
-})
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-    console.log("hello Muhammad Zubair")
-    res.send("hello to first API In Google Chorme") //send Response To User When User Run this
-})
-app.use(mainRouter)
+const db = mongoose.connection;
 
-//Help To Run Server => Listen
-app.listen(port, () => {
-    console.log("Running Server ")
-})
+// Event handling for database connection
+db.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
 
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
+
+
+app.use(mainRoute);
+
+
+
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
