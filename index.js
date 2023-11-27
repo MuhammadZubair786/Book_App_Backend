@@ -11,7 +11,7 @@ const app = express();
 const PORT = 3000;
 
 // Connect to MongoDB
-mongoose.connect(dbURI);
+mongoose.connect("mongodb+srv://mzhassan444:Zubair1234@cluster0.twakqcl.mongodb.net/?retryWrites=true&w=majority");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
