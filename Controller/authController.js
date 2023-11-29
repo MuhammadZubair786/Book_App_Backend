@@ -82,10 +82,12 @@ exports.createUser = async (req, res) => {
                  
                 }
                 else {
+                    
                     return res.status(200).json({
                         message: "Account Created Successfully , Otp Send  to your email",
                         data: newUser,
-                        token: `${token}`
+                        token: `${token}`,
+                        result
                     });
                     // console.log("Mail sent successfully", info);
                 }
