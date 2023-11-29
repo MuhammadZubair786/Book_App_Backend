@@ -147,7 +147,8 @@ exports.verifyOtp = async (req, res) => {
             console.log(userFind)
             if (userFind.otp == otp) {
                 await userFind.updateOne({
-                    isVerify: true
+                    isVerify: true,
+
                 })
 
                 const newToken = jwt.sign({ userId: req.userId }, 'user_sckeret', {
@@ -337,16 +338,16 @@ exports.login = async (req, res) => {
 
             if (isPasswordValid) {
                 if (user.isVerify) {
-                    if (user.isCompleteProfile) {
-                        const profile = await profileModel.findById(user.profileId);
-                        user.profileId = profile
+                    // if (user.isCompleteProfile) {
+                        // const profile = await profileModel.findById(user.profileId);
+                        // user.profileId = profile
                         const token = jwt.sign({ userId: user._id }, seckret_key, { expiresIn: '1h' });
                         return res.status(200).json({ message: "User Login SuccessFully", data: user, token });
 
-                    }
-                    else {
-                        return res.status(200).json({ message: "Plz Compelete Your Profile", data: user });
-                    }
+                    // }
+                    // else {
+                    //     return res.status(200).json({ message: "Plz Compelete Your Profile", data: user });
+                    // }
 
                 }
                 else {
