@@ -90,7 +90,7 @@ exports.createUser = async (req, res) => {
                         message: "Account Created Successfully , Otp Send  to your email",
                         data: newUser,
                         token: `${token}`,
-                        result
+                      
                     });
                     // console.log("Mail sent successfully", info);
                 }
