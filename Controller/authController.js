@@ -142,7 +142,7 @@ exports.verifyOtp = async (req, res) => {
             });
             return;
         }
-        jwt.verify(authorization, 'user_sckeret', async (err, decoded) => {
+        jwt.verify(authorization, seckret_key, async (err, decoded) => {
             if (err) {
                 return res.status(401).json({ message: 'Failed to authenticate token' });
             }
@@ -159,7 +159,7 @@ exports.verifyOtp = async (req, res) => {
 
                 })
 
-                const newToken = jwt.sign({ userId: req.userId }, 'user_sckeret', {
+                const newToken = jwt.sign({ userId: req.userId }, seckret_key, {
                     expiresIn: '1h' // Token validity duration (change as needed)
                 });
 
@@ -192,7 +192,7 @@ exports.completeProfile = async (req, res) => {
 
         await ProfileValidator.validateAsync(body);
 
-        jwt.verify(authorization, 'user_sckeret', async (err, decoded) => {
+        jwt.verify(authorization,seckret_key, async (err, decoded) => {
             if (err) {
                 return res.status(401).json({ message: 'Failed to authenticate token' });
             }
