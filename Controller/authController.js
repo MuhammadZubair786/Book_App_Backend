@@ -78,17 +78,20 @@ exports.createUser = async (req, res) => {
             transporter.sendMail(info, (err, result) => {
                 if (err) {
                     console.log("Error in sending Mail", err);
+                    return res.status(500).json({ error: "Error sending email" });
+                 
                 }
                 else {
+                    return res.status(200).json({
+                        message: "Account Created Successfully , Otp Send  to your email",
+                        data: newUser,
+                        token: `${token}`
+                    });
                     // console.log("Mail sent successfully", info);
                 }
             })
 
-            return res.status(200).json({
-                message: "Account Created Successfully , Otp Send  to your email",
-                data: newUser,
-                token: `${token}`
-            });
+           
         }
     }
     catch (e) {
