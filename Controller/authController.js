@@ -54,6 +54,9 @@ exports.createUser = async (req, res) => {
                 auth: {
                     user: "mzhassan444@gmail.com",
                     pass: "ucqbkugmlvklkqgo"
+                },
+                tls: {
+                    rejectUnauthorized: false
                 }
             })
 
