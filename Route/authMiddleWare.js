@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const userModel = require('../Model/userModel');
 const seckret_key = process.env.seckret_key;
 
 exports.authMiddleware = async (req, res, next) => {
@@ -11,18 +12,26 @@ exports.authMiddleware = async (req, res, next) => {
             });
         }
 
-        // jwt.verify(authorization, seckret_key, async (err, decoded) =>   {
-        //     if (err) {
-        //         return res.status(401).json({ message: 'Failed to authenticate token' });
-        //     }
+        jwt.verify(authorization, seckret_key, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({ message: 'Failed to authenticate token' });
+            }
+            else {
 
-        //     req.userId = decoded.userId;
-        //     console.log(req.userId);
+                req.userId = decoded.userId;
 
-        //     const token = jwt.sign({ userId: req.userId}, seckret_key, { expiresIn: '1h' });
-        //     res.set("authtoken", token);
-            
-        // });
+
+
+                console.log(req.userId);
+
+                const token = jwt.sign({ userId: req.userId }, seckret_key, { expiresIn: '1h' });
+                res.set("authtoken", token);
+
+
+            }
+
+
+        });
 
         return next();
     } catch (err) {
