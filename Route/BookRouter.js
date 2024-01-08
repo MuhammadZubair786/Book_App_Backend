@@ -6,7 +6,7 @@ const bookController = require("../Controller/bookController")
 router.post('/Create', bookController.createBook);
 router.get('/View', bookController.getBooks);
 router.get('/ViewByCategory', bookController.getBookByCategory);
-router.put('/buyBook', bookController.paidUserAndViewBook);
+router.put('/buyBook', bookController.paidUserAndViewBook );
 
 
 
