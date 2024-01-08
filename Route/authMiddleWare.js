@@ -25,7 +25,7 @@ exports.authMiddleware = async (req, res, next) => {
                 console.log(req.userId);
 
                 const token = jwt.sign({ userId: req.userId }, seckret_key, { expiresIn: '1h' });
-                res.set("authtoken", token);
+                // res.set("authtoken", token);
 
 
             }
