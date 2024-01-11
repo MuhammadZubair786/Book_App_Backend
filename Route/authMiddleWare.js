@@ -33,7 +33,7 @@ exports.authMiddleware = async (req, res, next) => {
 
         });
 
-        return next();
+        return next(); 
     } catch (err) {
         console.error('Error in authMiddleware:', err);
         return res.status(500).json({
