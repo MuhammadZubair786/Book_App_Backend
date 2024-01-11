@@ -7,24 +7,21 @@ exports.authMiddleware = async (req, res, next) => {
         const { authorization } = req.headers;
 
         if (!authorization) {
-            return res.status(401).json({
+            return res.json({
                 message: "Unauthorized - Token not provided",
             });
         }
 
         jwt.verify(authorization, seckret_key, async (err, decoded) => {
             if (err) {
-                return res.status(401).json({ message: 'Failed to authenticate token' });
+                return res.json({ message: 'Failed to authenticate token' });
             }
             else {
 
                 req.userId = decoded.userId;
-
-
-
                 console.log(req.userId);
-
-                const token = jwt.sign({ userId: req.userId }, seckret_key, { expiresIn: '1h' });
+                return next(); 
+            
                 // res.set("authtoken", token);
 
 
@@ -33,10 +30,10 @@ exports.authMiddleware = async (req, res, next) => {
 
         });
 
-        return next(); 
+    
     } catch (err) {
         console.error('Error in authMiddleware:', err);
-        return res.status(500).json({
+        return res.json({
             message: "Internal Server Error",
             error: err.message,
         });
