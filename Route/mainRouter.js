@@ -14,6 +14,7 @@ router.use("/auth",authrouter) //Auth
 router.use('/user',authMiddleware, userrouter);
 router.use('/admin', adminrouter);
 router.use("/category",authMiddleware,categoryrouter)
+
 router.use("/book",authMiddleware,bookrouter)
 
 

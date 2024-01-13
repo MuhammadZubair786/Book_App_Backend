@@ -110,25 +110,13 @@ exports.loginAdmin = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
     try {
-        var checkAdmin = await userModel.findById(req.userId)
-        if (checkAdmin.userType == "admin") {
-            var getUsers = await userModel.find({userType:"user"})
-
-            return res.status(200).json({
-                message: "Get All Users Successfully",
-                data: getUsers
-            })
-        }
-        else {
-            return res.status(200).json({
-                message: "PLease Login As Admin",
-            })
-        }
+        const Users = await userModel.find({ userType:"user"});
+        return res.status(200).json({ message: 'get all Users', data: Users });
+    } catch (e) {
+        console.error('Error:', e);
+        return res.status(500).json({
+            message: 'Internal server error',
+            error: e,
+        });
     }
-    catch (e) {
-        return res.status(400).json({ message: e });
-
-    }
-
-
-}
+};

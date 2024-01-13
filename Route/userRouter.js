@@ -6,8 +6,8 @@ const userController = require('../Controller/userController');
 
 
 
-router.post("/create-ticket", userController.createTicket)
-router.post("/get-all-ticket", userController.getAllTickets)
+// router.post("/create-ticket", userController.createTicket)
+router.post("/get-all-users", userController.getAllUsers)
 
 
 

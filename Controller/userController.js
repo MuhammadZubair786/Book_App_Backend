@@ -73,10 +73,10 @@ exports.createTicket = async (req, res) => {
 }
 
 
-exports.getAllTickets = async (req, res) => {
+exports.getAllUsers = async (req, res) => {
     try {
-        const tickets = await ticketModel.find({ user_id: req.userId });
-        return res.status(200).json({ message: 'Tickets retrieved successfully', data: tickets });
+        const Users = await userModel.find({ });
+        return res.status(200).json({ message: 'get all Users', data: Users });
     } catch (e) {
         console.error('Error:', e);
         return res.status(500).json({

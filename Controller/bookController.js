@@ -85,17 +85,17 @@ exports.getBookByCategory = async (req, res) => {
     try {
         if (req.query.category_id != null || req.query.category_id != undefined) {
             const CategoryId = req.query.category_id;
-            var findBooks = await bookModel.find({ category_id: CategoryId }).populate("category_id");
+            var findBooks = await bookModel.find({ }).populate("category_id")
 
             const booksWithUserView = findBooks.map(book => {
                 const isUserViewed = book.usersUsedBy.includes(req.userId);
                 return { ...book.toObject(), isUserViewed };
             });
             
-            console.log(booksWithUserView);
+            console.log("book==>",booksWithUserView);
 
             return res.status(200).json({
-                message: "Get All Books Successfully",
+                message: "Get Books Successfully",
                 data: booksWithUserView
             })
 
