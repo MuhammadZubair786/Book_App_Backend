@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const cors=require("cors");
 const mainRoute = require('./Route/mainRouter.js');
 
 const dbURI = process.env.DB_URI;
@@ -12,6 +13,14 @@ const PORT = 3000;
 
 // Connect to MongoDB
 mongoose.connect(dbURI);
+
+const corsOptions ={
+   origin:'*', 
+   credentials:true,           
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
