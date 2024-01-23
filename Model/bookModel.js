@@ -19,6 +19,10 @@ const bookModel = new mongoose.Schema({
         ref: 'category',
         required: false,
     },
+    price:{
+        type: String,
+        required: true
+    },
     usersUsedBy: [
         {
             type: mongoose.Schema.Types.ObjectId,

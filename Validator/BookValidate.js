@@ -45,6 +45,12 @@ const BookValidator = Joi.object({
     category_id: objectId.objectId().required().messages({
         'any.required': 'category_id is required',
       }),
+
+      price:Joi.string().trim().required().messages({
+        'string.base': 'price must be a string',
+        'string.empty': 'price cannot be empty',
+        'any.required': 'price is required',
+    }),
 });
 
 
