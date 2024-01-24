@@ -82,7 +82,7 @@ exports.loginAdmin = async (req, res) => {
                     // if (user.isCompleteProfile) {
                     // const profile = await profileModel.findById(user.profileId);
                     // user.profileId = profile
-                    const token = jwt.sign({ userId: user._id }, seckret_key, { expiresIn: '1h' });
+                    const token = jwt.sign({ userId: user._id }, seckret_key, );
                     return res.status(200).json({ message: "Admin Login SuccessFully", data: user, token });
 
                     // }
