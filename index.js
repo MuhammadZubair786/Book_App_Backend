@@ -9,7 +9,7 @@ const dbURI = process.env.DB_URI;
 
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose.connect(dbURI);
