@@ -1,3 +1,4 @@
+const { required } = require('joi');
 const mongoose = require('mongoose');
 
 const bookModel = new mongoose.Schema({
@@ -22,6 +23,11 @@ const bookModel = new mongoose.Schema({
     price:{
         type: String,
         required: true
+    },
+    BookFree : {
+        type : Boolean,
+        required : true
+
     },
     usersUsedBy: [
         {

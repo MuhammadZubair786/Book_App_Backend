@@ -1,3 +1,4 @@
+const bookModel = require("../Model/bookModel");
 const categoryModel = require("../Model/categoryModel");
 const userModel = require("../Model/userModel");
 const { validateCategory } = require("../Validator/categoryValidate")
@@ -60,3 +61,32 @@ exports.getCategory = async (req, res) => {
 
     }
 }
+
+
+exports.getAllCategoryWithBooks = async (req, res) => {
+    try {
+        // Find all categories
+        const categories = await categoryModel.find({}).sort({ updatedAt: -1 });
+
+        // Iterate through each category to find its associated books
+        const categoriesWithBooks = await Promise.all(categories.map(async (category) => {
+            // Find books associated with the current category
+            const books = await bookModel.find({ category_id: category._id });
+            // Return the category along with its associated books
+            return {
+                category: category,
+                books: books
+            };
+        }));
+
+        return res.status(200).json({
+            message: "Get All Categories Successfully",
+            data: categoriesWithBooks
+        });
+    } catch (error) {
+        console.error("Error:", error);
+        return res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+};
