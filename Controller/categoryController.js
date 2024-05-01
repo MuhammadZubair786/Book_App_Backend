@@ -72,10 +72,15 @@ exports.getAllCategoryWithBooks = async (req, res) => {
         const categoriesWithBooks = await Promise.all(categories.map(async (category) => {
             // Find books associated with the current category
             const books = await bookModel.find({ category_id: category._id });
+
+            const booksWithUserView = await Promise.all(books.map(async (book) => {
+                const isUserViewed = book.usersUsedBy.includes(req.userId);
+                return { ...book.toObject(), isUserViewed };
+            }));
             // Return the category along with its associated books
             return {
                 category: category,
-                books: books
+                books: booksWithUserView
             };
         }));
 
