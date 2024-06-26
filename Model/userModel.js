@@ -1,5 +1,3 @@
-
-// models/item.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -32,13 +30,18 @@ const userSchema = new mongoose.Schema({
         ref: 'users-profile',
         required: false,
     },
-
     otp: {
         type: Number,
         default: 0
-    }
-
-
+    },
+    favorites: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Books'
+        }
+    ]
 });
 
-module.exports = mongoose.model('user', userSchema);
+
+
+module.exports = mongoose.model('User', userSchema);

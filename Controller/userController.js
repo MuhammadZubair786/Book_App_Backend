@@ -9,7 +9,8 @@ const { ProfileValidator } = require("../Validator/ProfileValidate");
 const profileModel = require("../Model/profileModel");
 const { TicketValidator, validateTicket } = require("../Validator/TicketValidate");
 const ticketModel = require("../Model/ticketModel");
-const constantFunc = require("../constant/user")
+const constantFunc = require("../constant/user");
+const { default: mongoose } = require("mongoose");
 const seckret_key = process.env.seckret_key;
 
 
@@ -83,6 +84,77 @@ exports.getAllUsers = async (req, res) => {
             message: 'Internal server error',
             error: e,
         });
+    }
+};
+
+exports.addFavoriteBook = async (req, res) => {
+    try {
+        const userId = req.userId; // Assuming user ID is available in req.user
+        const bookId = req.params.bookId;
+
+        // Check if bookId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(bookId)) {
+            return res.status(400).json({ message: 'Invalid book ID' });
+        }
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if the book is already in favorites
+        if (user.favorites.includes(bookId)) {
+            return res.status(400).json({ message: 'Book is already in favorites' });
+        }
+
+        // Add book to favorites
+        user.favorites.push(bookId);
+        await user.save();
+
+        res.status(200).json({ message: 'Book added to favorites', favorites: user.favorites });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
+    }
+};
+
+// Remove a favorite book
+exports.removeFavoriteBook = async (req, res) => {
+    try {
+        const userId = req.userId; // Assuming user ID is available in req.user
+        const bookId = req.params.bookId;
+
+        // Check if bookId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(bookId)) {
+            return res.status(400).json({ message: 'Invalid book ID' });
+        }
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Remove book from favorites
+        user.favorites = user.favorites.filter(id => !id.equals(bookId));
+        await user.save();
+
+        res.status(200).json({ message: 'Book removed from favorites', favorites: user.favorites });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
+    }
+};
+
+exports.getAllFavoriteBooks = async (req, res) => {
+    try {
+        const userId = req.userId; // Assuming user ID is available in req.user
+
+        const user = await userModel.findById(userId).populate('favorites');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'Favorite books retrieved successfully', favorites: user.favorites });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
     }
 };
 
